@@ -23,7 +23,7 @@ require 'webmock'
 # =======
 # >>>>>>> views_sep
 # require_relative '../app/controllers/init'
-# require_relative '../config/init'
+#require_relative '../../config/init'
 require_relative '../../init'
 
 USERNAME = ''
