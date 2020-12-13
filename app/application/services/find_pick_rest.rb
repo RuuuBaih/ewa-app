@@ -15,16 +15,9 @@ module Ewa
         # if database results not found
         if rest_detail.nil?
           raise StandarError
-        end
-
-        Response::PickRestaurantResp.new(rest_detail)
-          .then do |rest_details|
-          Success(Response::ApiResult.new(status: :ok, message: rest_details))
-        end
-
-        
+        end        
       rescue StandardError
-        Failure(Response::ApiResult.new(status: :not_found, message: '無此資料 Resource not found'))
+        Failure('資料錯誤 Data error!')
       end
     end
   end

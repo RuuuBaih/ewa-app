@@ -26,7 +26,7 @@ module Ewa
         # Get cookie viewer's previously seen projects
         session[:watching] ||= []
 
-        rest_all = RestaurantActions::Rest.new.RestAll
+        rest_all = Service::ShowAllRests.new.call
 
         if rest_all.failure?
           flash[:error] = rest_all.failure
@@ -41,7 +41,7 @@ module Ewa
           session[:watching] = session[:watching][0..4]
         end
 
-        history = RestaurantOthers::History.new.call(session[:watching])
+        history = Service::History.new.call(session[:watching])
 
         if history.failure?
           flash[:error] = history.failure
@@ -76,7 +76,7 @@ module Ewa
               routing.redirect '/'
             end
             # select restaurants from the database
-            selected_rest = RestaurantActions::SelectRest.new.call(town, min_money, max_money)
+            selected_rest = Service::SelectRest.new.call(town, min_money, max_money)
             if selected_rest.failure?
               flash[:error] = selected_rest.failure
               routing.redirect '/'
