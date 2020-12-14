@@ -1,38 +1,37 @@
 # frozen_string_literal: true
 
-require 'dry/monads/all'
-# require 'dry/transaction'
+# require 'dry/monads/all'
+require 'dry/transaction'
 
 module Ewa
   module Service
     # Retrieves restaurant entity by searching restaurant name
     class SearchRestName
-      #include Dry::Transaction
-      include Dry::Monads::Result::Mixin
+      include Dry::Transaction
+      #include Dry::Monads::Result::Mixin
+      step :search_name
+      step :reify_rest
 
-      def call(input)
-        # pick all of the search, if the names are the same.
-        # e.g. In db: ABC小館 DEF小館 --> user search "小館" will show both of two
-        # search is a response obj
-        search = input.call.value!
+      private
+
+      def search_name(search)
         rest_searches = Gateway::Api.new(CodePraise::App.config).search_name(search)
         # if database results not found
         if rest_searches == []
           raise StandardError
         end
-
-        # if searches have more than 5 records, than show only five records
-        if rest_searches.length > 5
-          rest_searches = rest_searches[0..4]
-        end
-
-        Response::SearchRestaurantResp.new(rest_searches)
-          .then do |searches|
-          Success(Response::ApiResult.new(status: :ok, message: searches))
-        end
+        rest_searches.success? ? Success(rest_searches.payload) : Failure(rest_searches.message)
 
       rescue StandardError
-        Failure(Response::ApiResult.new(status: :not_found, message: '無此資料 Resource not found'))
+        Failure('無此資料 Resource not found')
+      end
+
+      def reify_rest(search_json)
+        Representer::SearchedRestaurants.new(OpenStruct.new)
+        .from_json(search_json)
+        .then { |project| Success(project) }
+      rescue StandardError
+        Failure('無此資料 resource not found -- please try again')
       end
     end
   end

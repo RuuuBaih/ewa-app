@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'list_request'
 require 'http'
 
 module Ewa
@@ -45,6 +44,7 @@ module Ewa
 
         def all_rest
           call_api('get', ['restaurants'])
+        end
 
         def select_rest(town, min_money, max_money)
           call_api('get', ['restaurants'], 'town' => town, 

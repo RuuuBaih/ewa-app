@@ -4,7 +4,6 @@ require 'json'
 require 'roda'
 require 'slim'
 require 'slim/include'
-#require_relative 'helpers.rb'
 
 module Ewa
   # Web App
@@ -15,6 +14,7 @@ module Ewa
     plugin :halt
     plugin :flash
     plugin :all_verbs
+    plugin :caching
 
     use Rack::MethodOverride
 
@@ -24,9 +24,10 @@ module Ewa
       # POST /
       routing.root do
         # Get cookie viewer's previously seen projects
-        session[:watching] ||= []
+       # session[:watching] ||= []
 
         rest_all = Service::ShowAllRests.new.call
+
 
         if rest_all.failure?
           flash[:error] = rest_all.failure
@@ -112,7 +113,7 @@ module Ewa
             routing.post do
               rest_id = routing.params['img_num'].to_i
               search = routing.params['search']
-              search_result = RestaurantOthers::SearchRest.new.call(search)
+              search_result = Service::SearchRestName.new.call(search)
               if !rest_id.zero?
                 rest_pick_id = rest_id
                 routing.redirect "pick/#{rest_pick_id}"
@@ -129,7 +130,7 @@ module Ewa
 
           routing.on String do |rest_id|
             routing.get do
-              rest_find = RestaurantActions::FindRest.new.call(rest_id)
+              rest_find = Service::FindRest.new.call(rest_id)
               if rest_find.failure?
                 flash[:error] = rest_find.failure
                 routing.redirect '/'
