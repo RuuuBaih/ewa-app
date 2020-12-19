@@ -15,7 +15,7 @@ module Ewa
 
       def history(history_records)
         history = history_records.map do |history_id|
-          Gateway::Api.new(CodePraise::App.config).pick_id(history_id)
+          Gateway::Api.new(Ewa::App.config).pick_id(history_id)
         end
         history.success? ? Success(history.payload) : Failure(history.message)
         rescue StandardError

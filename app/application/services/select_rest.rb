@@ -19,7 +19,7 @@ module Ewa
         town = params['town']
         min_money = params['min_money']
         max_money = params['max_money']
-        result = Gateway::Api.new(CodePraise::App.config).select_rest(town, min_money, max_money)
+        result = Gateway::Api.new(Ewa::App.config).select_rest(town, min_money, max_money)
 
         result.success? ? Success(result.payload) : Failure(result.message)
       rescue ArgumentError

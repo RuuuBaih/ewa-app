@@ -18,11 +18,11 @@ module Ewa
         restaurants = Gateway::Api.new(Ewa::App.config).all_rest
         restaurants.success? ? Success(restaurants.payload) : Failure(restaurants.message)
 
-        rescue ArgumentError
+      rescue ArgumentError
           Failure('參數錯誤 Invalid input')
-        rescue StandardError
+      rescue StandardError
           Failure('無法獲取資料 Cannot access db')
-        end
+      end
 
       def reify_rest(rest_json)
         Representer::Restaurants.new(OpenStruct.new)

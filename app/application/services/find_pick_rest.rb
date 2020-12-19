@@ -15,7 +15,7 @@ module Ewa
       private
 
       def pick_id(rest_id)
-        rest_detail = Gateway::Api.new(CodePraise::App.config).pick_id(rest_id)
+        rest_detail = Gateway::Api.new(Ewa::App.config).pick_id(rest_id)
         rest_detail.success? ? Success(rest_detail.payload) : Failure(rest_detail.message)
 
         # if database results not found

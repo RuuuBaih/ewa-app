@@ -15,7 +15,7 @@ module Ewa
       private
 
       def search_name(search)
-        rest_searches = Gateway::Api.new(CodePraise::App.config).search_name(search)
+        rest_searches = Gateway::Api.new(Ewa::App.config).search_name(search)
         # if database results not found
         if rest_searches == []
           raise StandardError

@@ -24,7 +24,7 @@ module Ewa
       # POST /
       routing.root do
         # Get cookie viewer's previously seen projects
-       # session[:watching] ||= []
+        session[:watching] ||= []
 
         rest_all = Service::ShowAllRests.new.call
 

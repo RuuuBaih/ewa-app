@@ -4,7 +4,7 @@ require 'http'
 
 module Ewa
   module Gateway
-    # Infrastructure to call CodePraise API
+    # Infrastructure to call Ewa API
     class Api
       def initialize(config)
         @config = config
