@@ -27,7 +27,7 @@ module Ewa
         .from_json
         .then { |rest_all| Success(rest_all) }
       rescue StandardError
-=begin     
+=begin
         Representer::Restaurants.new(restaurants_json)
         .from_json
         .then { |rest_all| Success(rest_all) }
