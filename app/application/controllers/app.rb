@@ -23,11 +23,11 @@ module Ewa
 
       # POST /
       routing.root do
+        #binding.irb
         # Get cookie viewer's previously seen projects
         session[:watching] ||= []
 
-        rest_all = Service::ShowAllRests.new.call
-
+        rest_all = Service::ShowAllRests.new.call 
 
         if rest_all.failure?
           flash[:error] = rest_all.failure
@@ -43,10 +43,10 @@ module Ewa
         end
 
         history = Service::History.new.call(session[:watching])
-
+        #binding.irb
         if history.failure?
           flash[:error] = history.failure
-          routing.redirect '/'
+          viewable_history = []
         else
           history_detail = history.value!
           if session[:watching].nil?

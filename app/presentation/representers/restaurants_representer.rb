@@ -13,8 +13,6 @@ module Ewa
       # :rests_infos include a collection of [ restaurant id & restaurant name & pictures]
       property :total
       collection :rests_infos, extend: Representer::RestaurantIdNamePic
-    
-
-    end  
+    end
   end
 end
