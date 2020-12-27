@@ -56,7 +56,7 @@ module Ewa
         end
 
         def search_name(rest_name)
-          call_api('get', ['restaurants', 'searches', rest_name])
+          call_api('get', ['restaurants', 'searches'], 'name' => rest_name)
         end
 
         private

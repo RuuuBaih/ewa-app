@@ -25,7 +25,7 @@ module Ewa
       def reify_rest(hist_json)
         Representer::PickRestaurant.new(OpenStruct.new)
         .from_json(hist_json)
-        .then { |history| Success(history) }
+        .then { |history| Success(history['pick_rest']) }
       rescue StandardError
         Failure('無此資料 resource not found -- please try again')
       end

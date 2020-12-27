@@ -23,16 +23,11 @@ module Ewa
 
       #binding.irb
       def reify_rest(restaurants_json)
-        Representer::Restaurants.new(restaurants_json)
-        .from_json
-        .then { |rest_all| Success(rest_all) }
+        Representer::Restaurants.new(OpenStruct.new)
+        .from_json(restaurants_json)
+        .then { |rest_all|  Success(rest_all['rests_infos']) }
+
       rescue StandardError
-=begin
-        Representer::Restaurants.new(restaurants_json)
-        .from_json
-        .then { |rest_all| Success(rest_all) }
-        binding.irb
-=end
         Failure('無此資料 resource not found -- please try again')
       end
     end

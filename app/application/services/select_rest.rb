@@ -15,11 +15,13 @@ module Ewa
 
       private
 
-      def filter_data(town, min_money, max_money)
-        town = params['town']
-        min_money = params['min_money']
-        max_money = params['max_money']
-        result = Gateway::Api.new(Ewa::App.config).select_rest(town, min_money, max_money)
+      def filter_data(input)
+        #town = params['town']
+        #min_money = params['min_money']
+        #max_money = params['max_money']
+        #binding.irb
+        result = Gateway::Api.new(Ewa::App.config).select_rest(input['town'], input['min_money'], input['max_money'])
+        #binding.irb
 
         result.success? ? Success(result.payload) : Failure(result.message)
       rescue ArgumentError
@@ -31,7 +33,7 @@ module Ewa
       def reify_rest(rest_json)
         Representer::Restaurants.new(OpenStruct.new)
         .from_json(rest_json)
-        .then { |project| Success(project) }
+        .then { |rest_all|  Success(rest_all['rests_infos'])  }
       rescue StandardError
         Failure('無此資料 resource not found -- please try again')
       end

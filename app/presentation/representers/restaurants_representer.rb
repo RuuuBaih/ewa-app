@@ -12,7 +12,7 @@ module Ewa
 
       # :rests_infos include a collection of [ restaurant id & restaurant name & pictures]
       property :total
-      collection :rests_infos, extend: Representer::RestaurantIdNamePic
+      collection :rests_infos, extend: Representer::RestaurantIdNamePic, class: OpenStruct
     end
   end
 end
