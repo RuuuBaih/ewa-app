@@ -119,13 +119,16 @@ module Ewa
 
           routing.on String do |rest_id|
             routing.get do
+              #binding.irb
               rest_find = Service::FindPickRest.new.call(rest_id)
+              #binding.irb
               if rest_find.failure?
                 flash[:error] = rest_find.failure
                 routing.redirect '/'
               else
                 rest_detail = rest_find.value!
               end
+              #binding.irb
               session[:watching_id].insert(0, rest_detail.id).uniq!
               session[:watching_name].insert(0, rest_detail.name).uniq!
               viewable_resdetail = Views::Resdetail.new(rest_detail)
