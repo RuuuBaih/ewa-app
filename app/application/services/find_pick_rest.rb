@@ -19,21 +19,18 @@ module Ewa
         if rest_detail.nil?
           raise StandardError
         end
-        #binding.irb
         rest_detail.success? ? Success(rest_detail.payload) : Failure(rest_detail.message)
       rescue StandardError
         Failure('資料錯誤 Data error!')
       end
 
       def reify_rest(pick_json)
-        #binding.irb
         Representer::PickRestaurant.new(OpenStruct.new)
         .from_json(pick_json)
-        .then { |rest_pick|  Success(rest_pick['pick_rest'].payload) }
+        .then { |rest_pick|  Success(rest_pick['pick_rest']) }
       rescue StandardError
         Failure('無此資料 resource not found -- please try again')
       end
-
     end
   end
 end
