@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 require 'dry/transaction'
-# require 'dry/monads/all'
+#require 'dry/monads/all'
 
 module Ewa
   module Service
     # filter restaurants based on money
     class ShowAllRests
       include Dry::Transaction
-      # include Dry::Monads::Result::Mixin
+      #include Dry::Monads::Result::Mixin
       step :show_all
       step :reify_rest
 
@@ -17,17 +17,16 @@ module Ewa
       def show_all
         restaurants = Gateway::Api.new(Ewa::App.config).all_rest
         restaurants.success? ? Success(restaurants.payload) : Failure(restaurants.message)
-
-        rescue ArgumentError
-          Failure('參數錯誤 Invalid input')
-        rescue StandardError
+      rescue StandardError
           Failure('無法獲取資料 Cannot access db')
-        end
+      end
 
-      def reify_rest(rest_json)
+      #binding.irb
+      def reify_rest(restaurants_json)
         Representer::Restaurants.new(OpenStruct.new)
-        .from_json(rest_json)
-        .then { |project| Success(project) }
+        .from_json(restaurants_json)
+        .then { |rest_all|  Success(rest_all['rests_infos']) }
+
       rescue StandardError
         Failure('無此資料 resource not found -- please try again')
       end

@@ -15,24 +15,25 @@ module Ewa
       private
 
       def pick_id(rest_id)
-        rest_detail = Gateway::Api.new(CodePraise::App.config).pick_id(rest_id)
-        rest_detail.success? ? Success(rest_detail.payload) : Failure(rest_detail.message)
-
-        # if database results not found
+        rest_detail = Gateway::Api.new(Ewa::App.config).pick_id(rest_id)
         if rest_detail.nil?
-          raise StandarError
-        end        
+          raise StandardError
+        end
+        #binding.irb
+        rest_detail.success? ? Success(rest_detail.payload) : Failure(rest_detail.message)
       rescue StandardError
         Failure('資料錯誤 Data error!')
       end
 
       def reify_rest(pick_json)
+        #binding.irb
         Representer::PickRestaurant.new(OpenStruct.new)
         .from_json(pick_json)
-        .then { |project| Success(project) }
+        .then { |rest_pick|  Success(rest_pick['pick_rest'].payload) }
       rescue StandardError
         Failure('無此資料 resource not found -- please try again')
       end
+
     end
   end
 end

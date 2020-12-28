@@ -4,7 +4,7 @@ require 'roda'
 require 'econfig'
 require 'delegate'
 
-module CodePraise
+module Ewa
   # Environment-specific configuration
   class App < Roda
     plugin :environments
