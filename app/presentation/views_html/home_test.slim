@@ -8,11 +8,10 @@
             | History
           .dropdown-menu aria-labelledby="navbarDropdown"
 
-            history.entity
-            - if history.any?
-              - history.entity.each do |hist|
-                a.dropdown-item onclick="window.location='restaurant/pick/#{hist.id}'" href="#"  =hist.name
-                -if history.entity.last != hist
+            - if history['id'].any?
+              - history['id'].each_with_index do |id, index|
+                a.dropdown-item onclick="window.location='restaurant/pick/#{id}'" href="#"  =history['name'][index]
+                -if history['id'].last != id
                   .dropdown-divider
 
     form.form-inline.my-2.my-lg-0 role="form" action="restaurant/pick" method="POST" id="search-form"
@@ -155,7 +154,6 @@
                       img.res-pic alt="Submit" src="#{restaurants.entity[num].cover_pictures[0].picture_link}" width=150 height=150 
                       .img_description_layer
                         p.img_description = restaurants.entity[num].name
-      history.entity
     .col-md-6
       .card.flex-md-row.mb-4.box-shadow.h-md-250
         .card-body.d-flex.flex-column.align-items-start

@@ -29,10 +29,11 @@ module Ewa
         #binding.irb
         Representer::PickRestaurant.new(OpenStruct.new)
         .from_json(pick_json)
-        .then { |rest_pick|  Success(rest_pick['pick_rest']) }
+        .then { |rest_pick|  Success(rest_pick['pick_rest'].payload) }
       rescue StandardError
         Failure('無此資料 resource not found -- please try again')
       end
+
     end
   end
 end
