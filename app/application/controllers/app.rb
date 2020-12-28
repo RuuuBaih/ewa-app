@@ -25,42 +25,34 @@ module Ewa
       routing.root do
         #binding.irb
         # Get cookie viewer's previously seen projects
-        session[:watching] ||= []
+        session[:watching_id] ||= []
+        session[:watching_name] ||= []
 
         rest_all = Service::ShowAllRests.new.call
         if rest_all.failure?
           flash[:error] = rest_all.failure
           viewable_restaurants = []
-          #routing.redirect '/'
         else
           restaurants = rest_all.value!
           viewable_restaurants = Views::Restaurant.new(restaurants)
         end
 
-        #viewable_restaurants = Views::Restaurant.new(restaurants)
-
-        if session[:watching].count > 5
-          session[:watching] = session[:watching][0..4]
+        if session[:watching_id].count > 5
+          session[:watching_id] = session[:watching_id][0..4]
+          session[:watching_name] = session[:watching_name][0..4]
         end
 
-        history = Service::History.new.call(session[:watching])
-        #binding.irb
-        if history.failure?
-          flash[:error] = history.failure
-          if session[:watching].empty?
-            flash.now[:notice] = '尋找城市，開啟饗宴！ Search a place to get started!'
-            #routing.redirect '/'
-          end
-          viewable_history = []
-          #routing.redirect '/'
-        else
-          history_detail = history.value!
-          binding.irb
-          viewable_history = Views::History.new(history_detail)
+        history_id = session[:watching_id]
+        history_name = session[:watching_name]
+        history = {}
+        history['id'] = history_id
+        history['name'] = history_name
+
+        if history['id'].empty?
+          flash.now[:notice] = '尋找城市，開啟饗宴！ Search a place to get started!'
         end
-        #binding.irb
-        #viewable_history = Views::History.new(history_detail)
-        view 'home_test', locals: { restaurants: viewable_restaurants, history: viewable_history }
+
+        view 'home_test', locals: { restaurants: viewable_restaurants, history: history}
       end
 
       routing.on 'restaurant' do
@@ -134,7 +126,8 @@ module Ewa
               else
                 rest_detail = rest_find.value!
               end
-              session[:watching].insert(0, rest_detail.id).uniq!
+              session[:watching_id].insert(0, rest_detail.id).uniq!
+              session[:watching_name].insert(0, rest_detail.name).uniq!
               viewable_resdetail = Views::Resdetail.new(rest_detail)
               view 'res_detail', locals: { rest_detail: viewable_resdetail }
             end
