@@ -90,7 +90,6 @@ module Ewa
               routing.redirect '/'
             end
             viewable_restaurants = Views::Restaurant.new(rests_info)
-            response.expires(360, public: true)
             view 'restaurant', locals: { pick_9rests: viewable_restaurants }
           end
         end
@@ -130,7 +129,7 @@ module Ewa
               else
                 rest_detail = rest_find.value!
               end
-              #binding.irb
+
               session[:watching_id].insert(0, rest_detail.id).uniq!
               session[:watching_name].insert(0, rest_detail.name).uniq!
               viewable_resdetail = Views::Resdetail.new(rest_detail)
