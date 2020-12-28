@@ -30,7 +30,8 @@ module Ewa
       property :address
       property :website
 
-      ## reviews & pictures maybe more than one (consider the usage)
+      ## reviews & pictures & cover_pictures maybe more than one (consider the usage)
+      collection :cover_pictures, extend: Representer::CoverPicture, class: OpenStruct
       collection :reviews, extend: Representer::Review, class: OpenStruct
       collection :pictures, extend: Representer::Picture, class: OpenStruct
 

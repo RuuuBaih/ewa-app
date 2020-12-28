@@ -14,15 +14,14 @@ module Ewa
 
       property :id
       property :name
-      collection :pictures, extend: Representer::Picture, class: OpenStruct
-
+      collection :cover_pictures, extend: Representer::CoverPicture, class: OpenStruct
 
       link :search_by_id do
-        "#{App.config.APP_HOST}/api/v1/restaurants/picks/#{id}"
+        "#{App.config.API_HOST}/api/v1/restaurants/picks/#{id}"
       end
 
       link :search_by_name do
-        "#{App.config.APP_HOST}/api/v1/restaurants/searches?name=#{name}"
+        "#{App.config.API_HOST}/api/v1/restaurants/searches?name=#{name}"
       end
 
       def id
@@ -32,7 +31,6 @@ module Ewa
       def name
         represented.name
       end
-
     end
   end
 end

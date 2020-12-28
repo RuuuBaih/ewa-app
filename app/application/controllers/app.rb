@@ -4,7 +4,6 @@ require 'json'
 require 'roda'
 require 'slim'
 require 'slim/include'
-#require_relative 'helpers.rb'
 
 module Ewa
   # Web App
@@ -15,6 +14,7 @@ module Ewa
     plugin :halt
     plugin :flash
     plugin :all_verbs
+    plugin :caching
 
     use Rack::MethodOverride
 
@@ -23,38 +23,43 @@ module Ewa
 
       # POST /
       routing.root do
+        #binding.irb
         # Get cookie viewer's previously seen projects
         session[:watching] ||= []
 
-        rest_all = RestaurantActions::Rest.new.RestAll
-
+        rest_all = Service::ShowAllRests.new.call
         if rest_all.failure?
           flash[:error] = rest_all.failure
-          routing.redirect '/'
+          viewable_restaurants = []
+          #routing.redirect '/'
         else
           restaurants = rest_all.value!
+          viewable_restaurants = Views::Restaurant.new(restaurants)
         end
 
-        viewable_restaurants = Views::Restaurant.new(restaurants)
+        #viewable_restaurants = Views::Restaurant.new(restaurants)
 
         if session[:watching].count > 5
           session[:watching] = session[:watching][0..4]
         end
 
-        history = RestaurantOthers::History.new.call(session[:watching])
-
+        history = Service::History.new.call(session[:watching])
+        #binding.irb
         if history.failure?
           flash[:error] = history.failure
-          routing.redirect '/'
+          if session[:watching].empty?
+            flash.now[:notice] = '尋找城市，開啟饗宴！ Search a place to get started!'
+            #routing.redirect '/'
+          end
+          viewable_history = []
+          #routing.redirect '/'
         else
           history_detail = history.value!
-          if session[:watching].nil?
-            flash.now[:notice] = '尋找城市，開啟饗宴！ Search a place to get started!'
-          end
+          binding.irb
+          viewable_history = Views::History.new(history_detail)
         end
-
-        viewable_history = Views::History.new(history_detail)
-
+        #binding.irb
+        #viewable_history = Views::History.new(history_detail)
         view 'home_test', locals: { restaurants: viewable_restaurants, history: viewable_history }
       end
 
@@ -63,45 +68,36 @@ module Ewa
           # POST /restaurant
           routing.post do
             # parameters call from view
-            town = routing.params['town']
-            min_money = routing.params['min_money']
-            max_money = routing.params['max_money']
-            if (min_money.to_i >= max_money.to_i) ||
-                  (min_money.to_i < 0) || (max_money.to_i <= 0)
+            filter_item = {}
+            filter_item["town"] = routing.params['town']
+            filter_item["min_money"] = routing.params['min_money']
+            filter_item["max_money"] = routing.params['max_money']
+
+            if (filter_item["min_money"].to_i >= filter_item["max_money"].to_i) ||
+                  (filter_item["min_money"].to_i < 0) || (filter_item["max_money"].to_i <= 0)
               flash[:error] = '輸入格式錯誤 Wrong number type.'
               routing.redirect '/'
             end
-            if (max_money.to_i <= 100)
+            if (filter_item["max_money"].to_i <= 100)
               flash[:error] = '金額過小 Max price is too small.'
               routing.redirect '/'
             end
             # select restaurants from the database
-            selected_rest = RestaurantActions::SelectRest.new.call(town, min_money, max_money)
+            selected_rest = Service::SelectRests.new.call(filter_item)
             if selected_rest.failure?
               flash[:error] = selected_rest.failure
               routing.redirect '/'
             else
-              selected_entities = selected_rest.value!
+              rests_info = selected_rest.value!
             end
-
-            # pick 9 restaurants
-            rests = RestaurantActions::Pick_9.new.call(selected_entities)
-            if rests.failure?
-              flash[:error] = rests.failure
-              routing.redirect '/'
-            else
-              rests_info = rests.value!
-            end
-            pick_ids = rests_info._9_id_infos
-            if pick_ids.count < 9
+            #binding.irb
+            if rests_info.length < 9
               flash[:error] = '資料過少，無法顯示 Not enough data.'
               response.status = 400
               routing.redirect '/'
             end
-            img_links = rests_info.random_thumbs
-            pick_names = rests_info._9_name_infos
-            session[:pick_9rests] = pick_ids
-            view 'restaurant', locals: { pick_9rests: pick_ids, img_links: img_links, pick_names: pick_names }
+            viewable_restaurants = Views::Restaurant.new(rests_info)
+            view 'restaurant', locals: { pick_9rests: viewable_restaurants }
           end
         end
 
@@ -112,7 +108,9 @@ module Ewa
             routing.post do
               rest_id = routing.params['img_num'].to_i
               search = routing.params['search']
-              search_result = RestaurantOthers::SearchRest.new.call(search)
+              search_result = Service::SearchRestName.new.call(search)
+              #binding.irb
+
               if !rest_id.zero?
                 rest_pick_id = rest_id
                 routing.redirect "pick/#{rest_pick_id}"
@@ -121,15 +119,15 @@ module Ewa
                 flash[:error] = search_result.failure
                 routing.redirect '/'
               else
-                rest_pick_id = search_result.value!
-                routing.redirect "pick/#{rest_pick_id}"
+                rest_search = search_result.value![0].id
+                routing.redirect "pick/#{rest_search}"
               end
             end
           end
 
           routing.on String do |rest_id|
             routing.get do
-              rest_find = RestaurantActions::FindRest.new.call(rest_id)
+              rest_find = Service::FindPickRest.new.call(rest_id)
               if rest_find.failure?
                 flash[:error] = rest_find.failure
                 routing.redirect '/'
