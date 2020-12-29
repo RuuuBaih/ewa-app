@@ -16,7 +16,7 @@ module Views
     end
 
     def pic_link
-      @restaurant.picture.link
+      @restaurant.cover_pictures
     end
   end
 end
