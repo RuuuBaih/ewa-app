@@ -20,7 +20,7 @@ module Ewa
         #min_money = params['min_money']
         #max_money = params['max_money']
         #binding.irb
-        result = Gateway::Api.new(Ewa::App.config).select_rest(input['town'], input['min_money'], input['max_money'])
+        result = Gateway::Api.new(Ewa::App.config).select_rest(input['town'], input['min_money'], input['max_money'], input['random'])
         #binding.irb
 
         result.success? ? Success(result.payload) : Failure(result.message)
