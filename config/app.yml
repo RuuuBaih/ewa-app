@@ -1,6 +1,6 @@
 ---
 development:
-  API_HOST: http://localhost:9090
+  API_HOST: http://localhost:9292
 
 test:
-  API_HOST: http://localhost:9090
+  API_HOST: http://localhost:9292
