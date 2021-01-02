@@ -133,11 +133,11 @@
             .row      
               - 9.times do |num|
                 .col-md-4.col-sm-6
-                  button class="btn bg-transparent" id="rest_pick_#{num}" name="img_num" type="submit" value="#{pick_9rests.entity[num].id}" 
+                  button class="btn bg-transparent" id="rest_pick_#{num}" name="img_num" type="submit" value="#{pick_9rests.id[num]}" 
                     .img_wrap
-                      img.res-pic alt="Submit" src="#{pick_9rests.entity[num].cover_pictures[0].picture_link}" width=150 height=150 
+                      img.res-pic alt="Submit" src="#{pick_9rests.pic_link[num][0].picture_link}" width=150 height=150 
                       .img_description_layer
-                        p.img_description = pick_9rests.entity[num].name
+                        p.img_description = pick_9rests.name[num]
     .col-md-1
     .col-md-3
       .row

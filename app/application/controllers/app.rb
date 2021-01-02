@@ -78,9 +78,8 @@ module Ewa
               routing.redirect '/'
             end
             # select restaurants from the database
-            binding.irb
             selected_rest = Service::SelectRests.new.call(filter_item)
-            binding.irb
+
             if selected_rest.failure?
               flash[:error] = selected_rest.failure
               routing.redirect '/'
