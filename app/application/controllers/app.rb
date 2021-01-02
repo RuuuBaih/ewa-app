@@ -128,7 +128,9 @@ module Ewa
                 routing.redirect '/'
               else
                 rest_detail = rest_find.value!
-                #binding.irb
+                if !rest_detail.address.include?(rest_detail.town)
+                  flash.now[:notice] = "此餐廳已歇業，推薦您其他分店！This restaurant has been closed down."
+                end
               end
               session[:watching_id].insert(0, rest_detail.id).uniq!
               session[:watching_name].insert(0, rest_detail.name).uniq!
