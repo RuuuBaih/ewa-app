@@ -34,19 +34,19 @@
         - 3.times do |col|
           .column
             - x.upto(x+2) do |num| 
-              img.res-pic id="picture_#{num}" src=rest_detail.entity.pictures[num].link style="width:100%"
+              img.res-pic id="picture_#{num}" src=rest_detail.pic_link[num] style="width:100%"
                 - x += 1
 
   .row
     .blank-row
   .row
     .col-md-9
-      iframe id="blog_article" allowfullscreen="" frameborder="0" height="1500" src=rest_detail.entity.article.link style="border:0" width="100%" 
+      iframe id="blog_article" allowfullscreen="" frameborder="0" height="1500" src=rest_detail.article_link style="border:0" width="100%" 
     .col-md-3
       - 5.times do |num|
         .card.flex-md-row.mb-4.box-shadow.h-md-250
           .card-body.d-flex.flex-column.align-items-start id="review_#{num}"
-            img src=rest_detail.entity.reviews[num].profile_photo_url width=30 height=30 
-            span id="review_name_#{num}" =rest_detail.entity.reviews[num].author_name 
-            span id="review_text_#{num}" =rest_detail.entity.reviews[num].text
-            .mb-1.text-muted id="review_time_#{num}" =rest_detail.entity.reviews[num].relative_time_description
+            img src=rest_detail.profile_photo_url[num] width=30 height=30 
+            span id="review_name_#{num}" =rest_detail.author_name[num]
+            span id="review_text_#{num}" =rest_detail.review_text[num]
+            .mb-1.text-muted id="review_time_#{num}" =rest_detail.review_relative_time_description[num]

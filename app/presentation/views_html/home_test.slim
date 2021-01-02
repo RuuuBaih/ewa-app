@@ -8,10 +8,10 @@
             | History
           .dropdown-menu aria-labelledby="navbarDropdown"
 
-            - if history['id'].any?
-              - history['id'].each_with_index do |id, index|
-                a.dropdown-item onclick="window.location='restaurant/pick/#{id}'" href="#"  =history['name'][index]
-                -if history['id'].last != id
+            - if history.id.any?
+              - history.id.each_with_index do |id, index|
+                a.dropdown-item onclick="window.location='restaurant/pick/#{id}'" href="#"  =history.name[index]
+                -if history.id.last != id
                   .dropdown-divider
 
     form.form-inline.my-2.my-lg-0 role="form" action="restaurant/pick" method="POST" id="search-form"
@@ -149,11 +149,11 @@
             .row
               - 9.times do |num|
                 .col-md-4.col-sm-6
-                  button class="btn bg-transparent" name="img_num" type="submit" value="#{restaurants.entity[num].id}"
+                  button class="btn bg-transparent" name="img_num" type="submit" value="#{restaurants.id[num]}"
                     .img_wrap
-                      img.res-pic alt="Submit" src="#{restaurants.entity[num].cover_pictures[0].picture_link}" width=150 height=150 
+                      img.res-pic alt="Submit" src="#{restaurants.pic_link[num][0].picture_link}" width=150 height=150 
                       .img_description_layer
-                        p.img_description = restaurants.entity[num].name
+                        p.img_description = restaurants.name[num]
     .col-md-6
       .card.flex-md-row.mb-4.box-shadow.h-md-250
         .card-body.d-flex.flex-column.align-items-start
