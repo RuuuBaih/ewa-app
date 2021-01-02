@@ -51,15 +51,10 @@ module Ewa
           flash.now[:notice] = '尋找城市，開啟饗宴！ Search a place to get started!'
         end
 
-<<<<<<< HEAD
         viewable_history = Views::History.new(history)
 
-        response.expires(360, public: true)
-        view 'home_test', locals: { restaurants: viewable_restaurants, history: viewable_history}
-=======
         response.expires(60, public: true)
-        view 'home_test', locals: { restaurants: viewable_restaurants, history: history}
->>>>>>> main
+        view 'home_test', locals: { restaurants: viewable_restaurants, history: viewable_history}
       end
 
       routing.on 'restaurant' do
