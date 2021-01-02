@@ -134,8 +134,9 @@ module Ewa
               end
               session[:watching_id].insert(0, rest_detail.id).uniq!
               session[:watching_name].insert(0, rest_detail.name).uniq!
-              #binding.irb
+              
               viewable_resdetail = Views::Resdetail.new(rest_detail)
+              #binding.irb
               response.expires(60, public: true)
               view 'res_detail', locals: { rest_detail: viewable_resdetail }
             end
