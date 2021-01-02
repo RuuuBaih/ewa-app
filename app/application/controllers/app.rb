@@ -23,7 +23,6 @@ module Ewa
 
       # POST /
       routing.root do
-        #binding.irb
         # Get cookie viewer's previously seen projects
         session[:watching_id] ||= []
         session[:watching_name] ||= []
@@ -47,13 +46,15 @@ module Ewa
         history = {}
         history['id'] = history_id
         history['name'] = history_name
-
+        
         if history['id'].empty?
           flash.now[:notice] = '尋找城市，開啟饗宴！ Search a place to get started!'
         end
 
+        viewable_history = Views::History.new(history)
+
         response.expires(360, public: true)
-        view 'home_test', locals: { restaurants: viewable_restaurants, history: history}
+        view 'home_test', locals: { restaurants: viewable_restaurants, history: viewable_history}
       end
 
       routing.on 'restaurant' do
@@ -84,7 +85,6 @@ module Ewa
             else
               rests_info = selected_rest.value!
             end
-            #binding.irb
             if rests_info.length < 9
               flash[:error] = '資料過少，無法顯示 Not enough data.'
               response.status = 400
@@ -127,14 +127,14 @@ module Ewa
                 routing.redirect '/'
               else
                 rest_detail = rest_find.value!
+                #binding.irb
               end
-<<<<<<< HEAD
-=======
-
->>>>>>> main
               session[:watching_id].insert(0, rest_detail.id).uniq!
               session[:watching_name].insert(0, rest_detail.name).uniq!
+              #binding.irb
               viewable_resdetail = Views::Resdetail.new(rest_detail)
+              viewable_resdetail.article_link
+              #binding.irb
               response.expires(360, public: true)
               view 'res_detail', locals: { rest_detail: viewable_resdetail }
             end
