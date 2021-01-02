@@ -52,7 +52,7 @@ module Ewa
           flash.now[:notice] = '尋找城市，開啟饗宴！ Search a place to get started!'
         end
 
-        response.expires(360, public: true)
+        response.expires(60, public: true)
         view 'home_test', locals: { restaurants: viewable_restaurants, history: history}
       end
 
@@ -133,7 +133,7 @@ module Ewa
               session[:watching_id].insert(0, rest_detail.id).uniq!
               session[:watching_name].insert(0, rest_detail.name).uniq!
               viewable_resdetail = Views::Resdetail.new(rest_detail)
-              response.expires(360, public: true)
+              response.expires(60, public: true)
               view 'res_detail', locals: { rest_detail: viewable_resdetail }
             end
           end

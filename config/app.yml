@@ -4,3 +4,6 @@ development:
 
 test:
   API_HOST: http://localhost:9292
+
+production:
+  API_HOST:  https://ewa-api.herokuapp.com
