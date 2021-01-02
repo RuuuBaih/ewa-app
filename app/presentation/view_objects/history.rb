@@ -6,17 +6,13 @@ module Views
       def initialize(history)
         @history = history
       end
-      
-      def entity
-        @history
-      end
 
       def name
-        @history.name
+        @history['name']
       end
 
       def id
-        @history.id
+        @history['id']
       end
 
     end

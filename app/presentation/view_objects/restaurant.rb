@@ -7,16 +7,16 @@ module Views
       @restaurant = restaurant
     end
 
-    def entity
-      @restaurant
+    def id
+      @restaurant.map(&:id)
     end
 
-    def id
-      @restaurant.id
+    def name
+      @restaurant.map(&:name)
     end
 
     def pic_link
-      @restaurant.cover_pictures
+      @restaurant.map { |rest| rest.cover_pictures.sample(1) }
     end
   end
 end

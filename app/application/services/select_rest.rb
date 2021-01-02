@@ -16,13 +16,7 @@ module Ewa
       private
 
       def filter_data(input)
-        #town = params['town']
-        #min_money = params['min_money']
-        #max_money = params['max_money']
-        #binding.irb
-        result = Gateway::Api.new(Ewa::App.config).select_rest(input['town'], input['min_money'], input['max_money'])
-        #binding.irb
-
+        result = Gateway::Api.new(Ewa::App.config).select_rest(input['town'], input['min_money'], input['max_money'], input['random'])
         result.success? ? Success(result.payload) : Failure(result.message)
       rescue ArgumentError
         Failure('參數錯誤 Invalid input')
@@ -33,7 +27,7 @@ module Ewa
       def reify_rest(rest_json)
         Representer::Restaurants.new(OpenStruct.new)
         .from_json(rest_json)
-        .then { |rest_all|  Success(rest_all['rests_infos'])  }
+        .then { |rest_all| Success(rest_all['rests_infos']) }
       rescue StandardError
         Failure('無此資料 resource not found -- please try again')
       end
