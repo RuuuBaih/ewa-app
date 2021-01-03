@@ -12,7 +12,7 @@
             .col-md-12
               strong.d-inline-block.mb-2.text-success =rest_detail.ewa_tag
               h3.mb-0
-                a.text-dark =rest_detail.name
+                a.text-dark href=rest_detail.website target="_blank" =rest_detail.name
               table style="width:100%" id="rest_infos"
                 tr
                   td Tel 
@@ -26,8 +26,32 @@
                 tr
                   td Rating 
                   td.mb-1.text-muted =rest_detail.google_rating
-              
-          iframe id="gmap_iframe" allowfullscreen="" frameborder="0" height="300" src="https://www.google.com/maps/embed/v1/place?key=#{Ewa::App.config.GMAP_TOKEN}&q=#{rest_detail.name}#{rest_detail.branch_store_name}" style="border:0" width="100%" 
+                tr
+                  td Tags
+                  td.mb-1.text-muted =rest_detail.tags
+                tr 
+                  td Open Hours
+                  td.mb-1.text-muted =rest_detail.open_hours[0].delete('["]')
+                tr
+                  td 
+                  td.mb-1.text-muted =rest_detail.open_hours[1].delete('["]')
+                tr
+                  td
+                  td.mb-1.text-muted =rest_detail.open_hours[2].delete('["]')
+                tr
+                  td
+                  td.mb-1.text-muted =rest_detail.open_hours[3].delete('["]')
+                tr
+                  td
+                  td.mb-1.text-muted =rest_detail.open_hours[4].delete('["]')
+                tr
+                  td 
+                  td.mb-1.text-muted =rest_detail.open_hours[5].delete('["]')
+                tr
+                  td 
+                  td.mb-1.text-muted =rest_detail.open_hours[6].delete('["]')
+
+          iframe id="gmap_iframe" allowfullscreen="" frameborder="0" height="300" src="https://www.google.com/maps/embed/v1/place?key=#{Ewa::App.config.GMAP_TOKEN}&q=#{rest_detail.name}#{rest_detail.branch_store_name}#{rest_detail.town}" style="border:0" width="100%" 
     .col-md-6
       .row
         - x = 0
@@ -40,13 +64,15 @@
   .row
     .blank-row
   .row
-    .col-md-9
-      iframe id="blog_article" allowfullscreen="" frameborder="0" height="1500" src=rest_detail.article_link style="border:0" width="100%" 
-    .col-md-3
+    .col-md-12
       - 5.times do |num|
         .card.flex-md-row.mb-4.box-shadow.h-md-250
           .card-body.d-flex.flex-column.align-items-start id="review_#{num}"
             img src=rest_detail.profile_photo_url[num] width=30 height=30 
+            span id="review_rating_#{num}" = rest_detail.review_rating[num]
             span id="review_name_#{num}" =rest_detail.author_name[num]
             span id="review_text_#{num}" =rest_detail.review_text[num]
             .mb-1.text-muted id="review_time_#{num}" =rest_detail.review_relative_time_description[num]
+  .row
+    .col-md-12
+      iframe id="blog_article" allowfullscreen="" frameborder="0" height="1500" src=rest_detail.article_link style="border:0" width="100%" 
