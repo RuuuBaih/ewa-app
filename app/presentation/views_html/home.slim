@@ -1,158 +1,239 @@
+.container  
+  nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    a.navbar-brand href="/"  Ewa in Taipei Area
+    #navbarSupportedContent.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item.dropdown
+          a#navbarDropdown.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button" 
+            | History
+          .dropdown-menu aria-labelledby="navbarDropdown"
 
-.container
-  form role="form" action="/restaurant" method='POST' id='show-project-form'
-    .row.vertical-align.query-bar
-      .col-md-2.col-sm-3
-        .text-right Restaurant:
-      .col-md-2.col-sm-3
-        button { 
-          type='submit' id='repo-form-submit' class='submit' 
-          value='submit' class="btn btn-success" 
-        } Show restaurant
-    .row
-      .col-md-12.blank-row
+            - if history.id.any?
+              - history.id.each_with_index do |id, index|
+                a.dropdown-item onclick="window.location='restaurant/pick/#{id}'" href="#"  =history.name[index]
+                -if history.id.last != id
+                  .dropdown-divider
 
+    form.form-inline.my-2.my-lg-0 role="form" action="restaurant/pick" method="POST" id="search-form"
+      input.form-control.mr-sm-2 aria-label="Search" placeholder="Search" type="search" name="search"
+      button.btn.btn-outline-success.my-2.my-sm-0 type="submit"  Search
+  .row.blank-row
 
-
-.container
   .row
-    .col-md-6
+    .col-md-12
       .row
         .col-md-12
-          form role="form" method='POST' id='filter-form'
-              .form-group
-                label[for="sel1"]
-                select#sel1.form-control[name="sellist1"]
-                  option
-                    | 地區
-                  optgroup label=("台北市") 
-                  option
-                    | 中正區
-                  option
-                    | 大同區
-                  option
-                    | 中山區
-                  option
-                    | 松山區
-                  option
-                    | 大安區
-                  option
-                    | 萬華區
-                  option
-                    | 信義區
-                  option
-                    | 士林區
-                  option
-                    | 北投區
-                  option
-                    | 內湖區
-                  option
-                    | 南港區
-                  option
-                    | 文山區
-                  optgroup label=("新北市") 
-                  option
-                    | 板橋區
-                  option
-                    | 中和區
-                  option
-                    | 新莊區
-                  option
-                    | 土城區
-                  option
-                    | 汐止區
-                  option
-                    | 鶯歌區
-                  option
-                    | 淡水區
-                  option
-                    | 五股區
-                  option
-                    | 林口區
-                  option
-                    | 深坑區
-                  option
-                    | 坪林區
-                  option
-                    | 石門區
-                  option
-                    | 萬里區
-                  option
-                    | 雙溪區
-                  option
-                    | 烏來區
-                  option
-                    | 三重區
-                  option
-                    | 永和區
-                  option
-                    | 新店區
-                  option
-                    | 蘆洲區
-                  option
-                    | 樹林區
-                  option
-                    | 三峽區
-                  option
-                    | 瑞芳區
-                  option
-                    | 泰山區
-                  option
-                    | 八里區
-                  option
-                    | 石碇區
-                  option
-                    | 三芝區
-                  option
-                    | 金山區
-                  option
-                    | 平溪區
-                  option
-                    | 貢寮區
+          .card.flex-md-row.mb-2.box-shadow.h-md-250
+            .card-body.d-flex.flex-column.align-items-start
+              form role="form" action="/restaurant" method='POST' id='filter-form'
+                .form-group
+                  .row
+                    .col-md-4
+                      select#sel1.form-control name="town" 
+                        option
+                          | 地區
+                        optgroup label=("台北市") 
+                        option
+                          | 中正區
+                        option
+                          | 大同區
+                        option
+                          | 中山區
+                        option
+                          | 松山區
+                        option
+                          | 大安區
+                        option
+                          | 萬華區
+                        option
+                          | 信義區
+                        option
+                          | 士林區
+                        option
+                          | 北投區
+                        option
+                          | 內湖區
+                        option
+                          | 南港區
+                        option
+                          | 文山區
+                        optgroup label=("新北市") 
+                        option
+                          | 板橋區
+                        option
+                          | 中和區
+                        option
+                          | 新莊區
+                        option
+                          | 土城區
+                        option
+                          | 汐止區
+                        option
+                          | 鶯歌區
+                        option
+                          | 淡水區
+                        option
+                          | 五股區
+                        option
+                          | 林口區
+                        option
+                          | 深坑區
+                        option
+                          | 坪林區
+                        option
+                          | 石門區
+                        option
+                          | 萬里區
+                        option
+                          | 雙溪區
+                        option
+                          | 烏來區
+                        option
+                          | 三重區
+                        option
+                          | 永和區
+                        option
+                          | 新店區
+                        option
+                          | 蘆洲區
+                        option
+                          | 樹林區
+                        option
+                          | 三峽區
+                        option
+                          | 瑞芳區
+                        option
+                          | 泰山區
+                        option
+                          | 八里區
+                        option
+                          | 石碇區
+                        option
+                          | 三芝區
+                        option
+                          | 金山區
+                        option
+                          | 平溪區
+                        option
+                          | 貢寮區
+                  
 
-           
-              .col-md-12
-                .form-group
-                  input.form-control[type="text" placeholder="Min Price" name="min_money"]
-              .col-md-12
-                .form-group
-                  input.form-control[type="text" placeholder="Max Price" name="mas_money"]
-           
-                button.btn.btn-primary.btn-block[ type="submit"]
-                  | Ewa recommend
-      .row
-        .col-md-6.blank-row 
+                    .col-md-3
+                      input { 
+                        type='number' name='min_money'
+                        min='0'
+                        id='min_money' class="form-control"
+                        placeholder= 'Min Price'
+                      } 
+                    
+                    .col-md-3
+                      input { 
+                        type='number' name='max_money'
+                        min='100'
+                        id='max_money' class="form-control"
+                        placeholder= 'Max Price'
+                      } 
+                    
+                    .col-md-2
+                      button {
+                        type='submit' id='filter-form-submit' class='submit' 
+                        value='submit' class="btn btn-outline-primary btn-block" 
+                      } Ewa
+          
 
   .row
     .col-md-6
       .row
-        form role="form" action="/res_detail" method='POST' id='filter-form'
+        form role="form" action="restaurant/pick" method='POST' id='filter-form'
           .form-group
             .row
-              .col-md-4.col-sm-6
-                input alt="Submit" src="https://i.pinimg.com/736x/b5/ff/f0/b5fff015ceeebc42663d5a5da8040794.jpg" type="image" value="1"/
-              .col-md-4.col-sm-6
-                input alt="Submit" src="https://cdn.funnow.com.tw/images/oblog/%E6%96%B9%E5%BD%A2960_9603.002_8bbd8a.jpg" type="image" value="2"/
-              .col-md-4.col-sm-6
-                input alt="Submit" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSE2WdGlyjIyeNJEjgALVoKGjoCxDBKfaEFsA&usqp=CAU" type="image" value="3"/
-
-
-              .col-md-4.col-sm-6
-                input alt="Submit" src="https://i1.wp.com/imreadygo.com/wp-content/uploads/2019/08/FotoJet-2-9.jpg?fit=750%2C750&ssl=1" type="image" value="4"/
-              .col-md-4.col-sm-6
-                input alt="Submit" src="https://pic.pimg.tw/ping01ching02/1598768853-2660427255-g_l.jpg" type="image" value="5"/
-              .col-md-4.col-sm-6
-                input alt="Submit" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/ryjtyj-1599131005.jpg?crop=0.487xw:0.974xh;0,0.0261xh&resize=640:*" type="image" value="6"/
-
-
-              .col-md-4.col-sm-6
-                input alt="Submit" src="https://www.adaymag.com/wp-content/uploads/2015/08/adaymag-food-photography-tips-8-02.jpg" type="image" value="7"/
-              .col-md-4.col-sm-6
-                input alt="Submit" src="https://www.adaymag.com/wp-content/uploads/2015/08/adaymag-instagram9-05.jpg" type="image" value="8"/
-              .col-md-4.col-sm-6
-                input alt="Submit" src="https://findlife.com.tw/menu/blog/wp-content/uploads/2019/09/6-1.jpg" type="image" value="9"/
-
-  
-          
-
-      
+              - 9.times do |num|
+                .col-md-4.col-sm-6
+                  button class="btn bg-transparent" name="img_num" type="submit" value="#{restaurants.id[num]}"
+                    .img_wrap
+                      img.res-pic alt="Submit" src="#{restaurants.pic_link[num][0].picture_link}" width=150 height=150 
+                      .img_description_layer
+                        p.img_description = restaurants.name[num]
+    .col-md-6
+      .card.flex-md-row.mb-4.box-shadow.h-md-250
+        .card-body.d-flex.flex-column.align-items-start
+          .row
+            .col-md-12
+              strong.d-inline-block.mb-2.text-success What's Ewa Tag?
+              table style="width:100%" 
+                .head
+                  tr
+                    th Tag 
+                    th
+                    th Price
+                    th
+                    th Rating
+                .tbody
+                  tr
+                    td 老闆請客 Boss, please treat me!
+                    td
+                    td.mb-1.text-muted >=1000
+                    td
+                    td.mb-1.text-muted >=4.5
+                  tr
+                    td 存點錢再吃  Eat when you have budget!
+                    td
+                    td.mb-1.text-muted >=1000
+                    td
+                    td.mb-1.text-muted 4~4.5
+                  tr
+                    td 女朋友叫你帶她去吃 Your girlfriend said she wants to eat that!
+                    td
+                    td.mb-1.text-muted 500~1000
+                    td
+                    td.mb-1.text-muted >=4.5
+                  tr
+                    td 同學會可食 Eat this in your class reunion!
+                    td
+                    td.mb-1.text-muted 500~1000
+                    td
+                    td.mb-1.text-muted 4~4.5
+                  tr
+                    td 發薪日可食 Eat when you get your salary!
+                    td
+                    td.mb-1.text-muted 300~500
+                    td
+                    td.mb-1.text-muted >=4.5
+                  tr
+                    td 吃拉，哪次不吃~ Ok, just eat that.
+                    td
+                    td.mb-1.text-muted 300~500
+                    td
+                    td.mb-1.text-muted 4~4.5
+                  tr
+                    td 便宜上天堂 Go to heaven~
+                    td
+                    td.mb-1.text-muted 1~300
+                    td
+                    td.mb-1.text-muted >=4.5
+                  tr
+                    td cp值爆高 Cheap and happy!
+                    td
+                    td.mb-1.text-muted 1~300
+                    td
+                    td.mb-1.text-muted 4~4.5
+                  tr
+                    td 維持生命 Only maintaining my life
+                    td
+                    td.mb-1.text-muted 1~300
+                    td
+                    td.mb-1.text-muted <=3.5
+                  tr
+                    td 痛苦盤子 Eat sh**!
+                    td
+                    td.mb-1.text-muted >300
+                    td
+                    td.mb-1.text-muted <=3.5
+                  tr
+                    td 哎呀還行拉 So~so!
+                    td
+                    td.mb-1.text-muted others
+                    td
+                    td.mb-1.text-muted others
+                    
+                        
