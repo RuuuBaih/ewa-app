@@ -123,8 +123,14 @@ module Ewa
           routing.on String do |rest_id|
             routing.get do
               rest_find = Service::FindPickRest.new.call(rest_id)
+              #binding.irb
               if rest_find.failure?
-                flash[:error] = rest_find.failure
+                # means processing the data in API
+                if rest_find.failure.include? "wait"
+                  flash[:notice] = rest_find.failure
+                else
+                  flash[:error] = rest_find.failure
+                end
                 routing.redirect '/'
               else
                 rest_detail = rest_find.value!

@@ -2,6 +2,7 @@
 
 #require 'dry/monads/result'
 require 'dry/transaction'
+require 'json'
 
 module Ewa
   module Service
@@ -19,7 +20,18 @@ module Ewa
         if rest_detail.nil?
           raise StandardError
         end
-        rest_detail.success? ? Success(rest_detail.payload) : Failure(rest_detail.message)
+
+        parsed_resp = JSON.parse(rest_detail.payload)
+        status = parsed_resp['status']
+        message = parsed_resp['message']
+
+        if status == "processing"
+          raise RuntimeError
+        end
+        rest_detail.success? ? Success(rest_detail.payload) : Failure(message)
+      
+      rescue RuntimeError
+        Failure(message)
       rescue StandardError
         Failure('資料錯誤 Data error!')
       end
