@@ -128,6 +128,9 @@ module Ewa
                 # means processing the data in API
                 if rest_find.failure.include? "wait"
                   flash[:notice] = rest_find.failure
+                  rest_name = rest_find.failure.split(" ").first
+                  session[:watching_id].insert(0, rest_id).uniq!
+                  session[:watching_name].insert(0, rest_name).uniq!
                 else
                   flash[:error] = rest_find.failure
                 end
