@@ -54,7 +54,7 @@ module Ewa
         viewable_history = Views::History.new(history)
 
         response.expires(60, public: true)
-        view 'home_test', locals: { restaurants: viewable_restaurants, history: viewable_history}
+        view 'home', locals: { restaurants: viewable_restaurants, history: viewable_history}
       end
 
       routing.on 'restaurant' do
