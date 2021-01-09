@@ -31,6 +31,18 @@ module Views
       @resdetail.money
     end
 
+    def tags
+      @resdetail.tags.join(" ")
+    end
+
+    def open_hours
+      @resdetail.open_hours
+    end
+
+    def website
+      @resdetail.website
+    end
+
     def google_rating
       @resdetail.google_rating
     end
@@ -56,6 +68,10 @@ module Views
       @resdetail.reviews.map(&:profile_photo_url)
     end
 
+    def review_rating
+      @resdetail.reviews.map(&:rating)
+    end
+
     def review_relative_time_description
       @resdetail.reviews.map(&:relative_time_description)
     end
@@ -66,6 +82,10 @@ module Views
 
     def branch_store_name
       @resdetail.branch_store_name
+    end
+
+    def town
+      @resdetail.town
     end
   end
 end
