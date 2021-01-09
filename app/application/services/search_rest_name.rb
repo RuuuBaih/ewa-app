@@ -16,12 +16,13 @@ module Ewa
 
       def search_name(search)
         rest_searches = Gateway::Api.new(Ewa::App.config).search_name(search)
-        #binding.irb
+        parsed_resp = JSON.parse(rest_searches.payload)
+        message = parsed_resp['message']
         # if database results not found
         if rest_searches == []
           raise StandardError
         end
-        rest_searches.success? ? Success(rest_searches.payload) : Failure(rest_searches.message)
+        rest_searches.success? ? Success(rest_searches.payload) : Failure(message)
 
       rescue StandardError
         Failure('無此資料 Resource not found')

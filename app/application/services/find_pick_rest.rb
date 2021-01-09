@@ -28,7 +28,6 @@ module Ewa
         if status == "processing"
           raise RuntimeError
         end
-        binding.irb
         rest_detail.success? ? Success(rest_detail.payload) : Failure(message)
       
       rescue RuntimeError
