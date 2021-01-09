@@ -16,7 +16,9 @@ module Ewa
 
       def show_all
         restaurants = Gateway::Api.new(Ewa::App.config).all_rest
-        restaurants.success? ? Success(restaurants.payload) : Failure(restaurants.message)
+        parsed_resp = JSON.parse(restaurants.payload)
+        message = parsed_resp['message']
+        restaurants.success? ? Success(restaurants.payload) : Failure(message)
       rescue StandardError
           Failure('無法獲取資料 Cannot access db')
       end
