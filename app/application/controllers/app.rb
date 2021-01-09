@@ -23,7 +23,6 @@ module Ewa
 
       # POST /
       routing.root do
-        #binding.irb
         # Get cookie viewer's previously seen projects
         session[:watching_id] ||= []
         session[:watching_name] ||= []
@@ -47,13 +46,15 @@ module Ewa
         history = {}
         history['id'] = history_id
         history['name'] = history_name
-
+        
         if history['id'].empty?
           flash.now[:notice] = '尋找城市，開啟饗宴！ Search a place to get started!'
         end
 
+        viewable_history = Views::History.new(history)
+
         response.expires(60, public: true)
-        view 'home_test', locals: { restaurants: viewable_restaurants, history: history}
+        view 'home', locals: { restaurants: viewable_restaurants, history: viewable_history}
       end
 
       routing.on 'restaurant' do
@@ -65,6 +66,7 @@ module Ewa
             filter_item["town"] = routing.params['town']
             filter_item["min_money"] = routing.params['min_money']
             filter_item["max_money"] = routing.params['max_money']
+            filter_item["random"] = 9
 
             if (filter_item["min_money"].to_i >= filter_item["max_money"].to_i) ||
                   (filter_item["min_money"].to_i < 0) || (filter_item["max_money"].to_i <= 0)
@@ -77,13 +79,13 @@ module Ewa
             end
             # select restaurants from the database
             selected_rest = Service::SelectRests.new.call(filter_item)
+
             if selected_rest.failure?
               flash[:error] = selected_rest.failure
               routing.redirect '/'
             else
               rests_info = selected_rest.value!
             end
-            #binding.irb
             if rests_info.length < 9
               flash[:error] = '資料過少，無法顯示 Not enough data.'
               response.status = 400
@@ -120,18 +122,28 @@ module Ewa
 
           routing.on String do |rest_id|
             routing.get do
-              #binding.irb
               rest_find = Service::FindPickRest.new.call(rest_id)
               #binding.irb
               if rest_find.failure?
-                flash[:error] = rest_find.failure
+                # means processing the data in API
+                if rest_find.failure.include? "wait"
+                  flash[:notice] = rest_find.failure
+                  rest_name = rest_find.failure.split(" ").first
+                  session[:watching_id].insert(0, rest_id).uniq!
+                  session[:watching_name].insert(0, rest_name).uniq!
+                else
+                  flash[:error] = rest_find.failure
+                end
                 routing.redirect '/'
               else
                 rest_detail = rest_find.value!
+                if !rest_detail.address.include?(rest_detail.town)
+                  flash.now[:notice] = "此餐廳已歇業，推薦您其他分店！This restaurant has been closed down."
+                end
               end
-
               session[:watching_id].insert(0, rest_detail.id).uniq!
               session[:watching_name].insert(0, rest_detail.name).uniq!
+              #binding.irb
               viewable_resdetail = Views::Resdetail.new(rest_detail)
               response.expires(60, public: true)
               view 'res_detail', locals: { rest_detail: viewable_resdetail }

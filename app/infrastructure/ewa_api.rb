@@ -19,8 +19,8 @@ module Ewa
         @request.all_rest
       end
 
-      def select_rest(town, min_money, max_money)
-        @request.select_rest(town, min_money, max_money)
+      def select_rest(town, min_money, max_money, random)
+        @request.select_rest(town, min_money, max_money, random)
       end
 
       def pick_id(rest_id)
@@ -46,9 +46,9 @@ module Ewa
           call_api('get', ['restaurants'])
         end
 
-        def select_rest(town, min_money, max_money)
+        def select_rest(town, min_money, max_money, random)
           call_api('get', ['restaurants'], 'town' => town, 
-                        'min_money' => min_money, 'max_money' => max_money)
+                        'min_money' => min_money, 'max_money' => max_money, 'random' => random)
         end
 
         def pick_id(rest_id)
