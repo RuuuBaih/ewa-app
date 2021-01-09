@@ -79,7 +79,7 @@ module Views
     def review_text
       @resdetail.reviews.map(&:text)
     end
-    
+
     def branch_store_name
       @resdetail.branch_store_name
     end

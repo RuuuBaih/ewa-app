@@ -17,7 +17,11 @@ module Ewa
 
       def filter_data(input)
         result = Gateway::Api.new(Ewa::App.config).select_rest(input['town'], input['min_money'], input['max_money'], input['random'])
-        result.success? ? Success(result.payload) : Failure(result.message)
+        
+        parsed_resp = JSON.parse(result.payload)
+        message = parsed_resp['message']
+
+        result.success? ? Success(result.payload) : Failure(message)
       rescue ArgumentError
         Failure('參數錯誤 Invalid input')
       rescue StandardError
