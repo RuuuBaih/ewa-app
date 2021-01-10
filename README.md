@@ -20,7 +20,7 @@ Ewa combines Pixnet poi API, Google Custom Search API and Google Map API, recomm
 - Recommand restaurants based on users' preferences.
 
 
-## [Website usage](http://soa2020-ewa.heroku.app.com)
+## [Website usage](http://soa2020-ewa.herokuapp.com)
 ### Home page
 1. On the home page, you can see top 9 clicked restaurants' pictures on the page. They order from left to right, up to down.
 2. You can click on the restaurant picture, and it will show you the related restaurant infos about that restaurant. I will introduce deeper in the restaurant detail page.
