@@ -29,12 +29,11 @@ Ewa combines Pixnet poi API, Google Custom Search API and Google Map API, recomm
 
 ### Recommend page
 1. On the home page, you can use the search bar in the middle to filter the town and money range of the restaurant.
-2. In the next page, you will see 9 recommended restaurants from Ewa and choose one to click. If you're not satisfied with the results, you can click try again.
+2. In the next page, you will see 9 recommended restaurants from Ewa and choose one to click. If you're not satisfied with the pictures, you can click try again.
 3. As what 4. on the home page mentioned before, if you click on the restaurant that hasn't been clicked before, you will be redirected to home page. You can wait for a couple of seconds and click the restaurant that you clicked before by using the **History combobox** on the left up corner.
 
 ### Restaurant Details Page
-1. On the restaurant details page, you can see some restaurant related basic infos. Such as: restaurant name (its name links to its related website), google rating, open hours, ewa tag. Also, you can see a google map section of this re
-staurant below the basic infos, and on the right side are the pictures of this restaurant.
+1. On the restaurant details page, you can see some restaurant related basic infos. Such as: restaurant name (its name links to its related website), google rating, open hours, ewa tag. Also, you can see a google map section of this restaurant below the basic infos, and on the right side are the pictures of this restaurant.
 2. You can scroll down, then you will see five reviews from google map about this restaurant, and one blog article about this restaurant. If you are not satisfied with the blog article, you can reload the page, we will re-random a blog article for you again.
 
 **Ewa can't guarantee for the information quality, which is controlled by Google and Pixnet resources. However, we try to pick out those restaurants we think are the best for everyone. :)**
