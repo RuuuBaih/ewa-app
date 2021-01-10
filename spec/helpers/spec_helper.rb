@@ -11,19 +11,6 @@ require 'minitest/autorun'
 require 'minitest/rg'
 require 'vcr'
 require 'webmock'
-
-# # require_relative '../app/models/mappers/restaurant_mapper'
-# require_relative '../app/models/mappers/article_mapper'
-# require_relative '../app/models/entities/article'
-# require_relative '../app/models/mappers/restaurant_mapper'
-# require_relative '../app/models/entities/restaurant'
-# require_relative '../app/models/mappers/review_mapper'
-# require_relative '../app/models/entities/review'
-# require_relative '../app/models/init'
-# =======
-# >>>>>>> views_sep
-# require_relative '../app/controllers/init'
-#require_relative '../../config/init'
 require_relative '../../init'
 
 USERNAME = ''
