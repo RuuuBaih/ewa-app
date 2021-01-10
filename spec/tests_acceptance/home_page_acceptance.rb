@@ -30,9 +30,7 @@ describe 'Homepage Acceptance Tests' do
         _(page.filter_search_element.present?).must_equal true
 
         # THEN: if they visit on the first time, they should see a welcome message
-        if page.success_message_element.present?
-          _(page.success_message.downcase).must_include 'start'
-        end
+        _(page.success_message.downcase).must_include 'start' if page.success_message_element.present?
       end
     end
 
@@ -83,7 +81,7 @@ describe 'Homepage Acceptance Tests' do
     it '(SAD) should show warning message if there are too few restaurants to show' do
       # GIVEN: user is on the page with top 9 restaurants
       visit HomePage do |page|
-        # WHEN: they enter the correct town but too small max_money for restaurants data    
+        # WHEN: they enter the correct town but too small max_money for restaurants data
         good_town = '中山區'
         min_mon = 0
         max_mon = 110
@@ -92,9 +90,7 @@ describe 'Homepage Acceptance Tests' do
         # THEN: they should see a warning message
         _(page.warning_message_element.present?).must_equal true
         _(page.warning_message.downcase).must_include 'not enough data'
-
       end
     end
   end
 end
- 

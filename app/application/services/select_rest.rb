@@ -30,8 +30,8 @@ module Ewa
 
       def reify_rest(rest_json)
         Representer::Restaurants.new(OpenStruct.new)
-        .from_json(rest_json)
-        .then { |rest_all| Success(rest_all['rests_infos']) }
+                                .from_json(rest_json)
+                                .then { |rest_all| Success(rest_all['rests_infos']) }
       rescue StandardError
         Failure('無此資料 resource not found -- please try again')
       end

@@ -1,10 +1,13 @@
 ---
 development:
   API_HOST: http://localhost:9292
+  APP_HOST: http://localhost:9090
   
 
 test:
   API_HOST: http://localhost:9292
+  APP_HOST: http://localhost:9090
 
 production:
-  API_HOST:  https://ewa-api.herokuapp.com
+  API_HOST: https://ewa-api.herokuapp.com
+  APP_HOST: http://soa2020-ewa.herokuapp.com

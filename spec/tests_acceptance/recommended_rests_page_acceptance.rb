@@ -65,4 +65,3 @@ describe 'RecommendRestaurantPage Acceptance Tests' do
     end
   end
 end
- 

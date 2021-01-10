@@ -51,9 +51,7 @@ describe 'Acceptance Tests' do
         good_min_mon = 10
         good_max_mon = 1000
         @browser.select_list(name: 'town').options.each do |option|
-          if option.text == good_town
-            option.click
-          end
+          option.click if option.text == good_town
         end
         @browser.text_field(id: 'min_money').set(good_min_mon)
         @browser.text_field(id: 'max_money').set(good_max_mon)
@@ -75,9 +73,7 @@ describe 'Acceptance Tests' do
         bad_min_mon = 1000
         bad_max_mon = 100
         @browser.select_list(name: 'town').options.each do |option|
-          if option.text == good_town
-            option.click
-          end
+          option.click if option.text == good_town
         end
         @browser.text_field(id: 'min_money').set(bad_min_mon)
         @browser.text_field(id: 'max_money').set(bad_max_mon)
@@ -100,9 +96,7 @@ describe 'Acceptance Tests' do
         # GIVEN: user is on the homepage's searching bars
         @browser.goto @homepage
         @browser.select_list(name: 'town').options.each do |option|
-          if option.text == good_town
-            option.click
-          end
+          option.click if option.text == good_town
         end
         @browser.text_field(id: 'min_money').set(good_min_mon)
         @browser.text_field(id: 'max_money').set(good_max_mon)
@@ -122,9 +116,7 @@ describe 'Acceptance Tests' do
         # GIVEN: user is on the homepage's searching bars
         @browser.goto @homepage
         @browser.select_list(name: 'town').options.each do |option|
-          if option.text == good_town
-            option.click
-          end
+          option.click if option.text == good_town
         end
         @browser.text_field(id: 'min_money').set(good_min_mon)
         @browser.text_field(id: 'max_money').set(good_max_mon)
@@ -151,9 +143,7 @@ describe 'Acceptance Tests' do
       while flag
         @browser.goto @homepage
         @browser.select_list(name: 'town').options.each do |option|
-          if option.text == good_town
-            option.click
-          end
+          option.click if option.text == good_town
         end
         @browser.text_field(id: 'min_money').set(good_min_mon)
         @browser.text_field(id: 'max_money').set(good_max_mon)
