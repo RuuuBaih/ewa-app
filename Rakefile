@@ -48,7 +48,7 @@ namespace :quality do
   CODE = 'app/'
 
   desc 'run all quality checks'
-  task :all => [:rubocop, :reek, :flog]
+  task all: %i[rubocop reek flog]
 
   task :rubocop do
     sh 'rubocop'

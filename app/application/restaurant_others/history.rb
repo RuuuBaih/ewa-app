@@ -12,8 +12,8 @@ module Ewa
           Repository::For.klass(Entity::Restaurant).find_by_rest_id(history_id)
         end
         Success(history)
-        rescue StandardError
-          Failure('資料錯誤 Database error!')
+      rescue StandardError
+        Failure('資料錯誤 Database error!')
       end
     end
   end

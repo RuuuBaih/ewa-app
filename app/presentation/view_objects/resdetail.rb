@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Views
-    # View for a single project entity
+  # View for a single project entity
   class Resdetail
     def initialize(resdetail)
       @resdetail = resdetail
@@ -10,7 +10,7 @@ module Views
     def entity
       @resdetail
     end
-  
+
     def ewa_tag
       @resdetail.ewa_tag.ewa_tag
     end
@@ -32,7 +32,7 @@ module Views
     end
 
     def tags
-      @resdetail.tags.join(" ")
+      @resdetail.tags.join(' ')
     end
 
     def open_hours
@@ -79,7 +79,7 @@ module Views
     def review_text
       @resdetail.reviews.map(&:text)
     end
-    
+
     def branch_store_name
       @resdetail.branch_store_name
     end
