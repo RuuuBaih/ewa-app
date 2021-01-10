@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#require 'dry/monads/result'
+# require 'dry/monads/result'
 require 'dry/transaction'
 require 'json'
 
@@ -17,19 +17,15 @@ module Ewa
 
       def pick_id(rest_id)
         rest_detail = Gateway::Api.new(Ewa::App.config).pick_id(rest_id)
-        if rest_detail.nil?
-          raise StandardError
-        end
+        raise StandardError if rest_detail.nil?
 
         parsed_resp = JSON.parse(rest_detail.payload)
         status = parsed_resp['status']
         message = parsed_resp['message']
 
-        if status == "processing"
-          raise RuntimeError
-        end
+        raise RuntimeError if status == 'processing'
+
         rest_detail.success? ? Success(rest_detail.payload) : Failure(message)
-      
       rescue RuntimeError
         Failure(message)
       rescue StandardError
@@ -38,8 +34,8 @@ module Ewa
 
       def reify_rest(pick_json)
         Representer::PickRestaurant.new(OpenStruct.new)
-        .from_json(pick_json)
-        .then { |rest_pick|  Success(rest_pick['pick_rest']) }
+                                   .from_json(pick_json)
+                                   .then { |rest_pick| Success(rest_pick['pick_rest']) }
       rescue StandardError
         Failure('無此資料 resource not found -- please try again')
       end

@@ -8,7 +8,7 @@ module Ewa
     # Retrieves restaurant entity by searching restaurant name
     class SearchRestName
       include Dry::Transaction
-      #include Dry::Monads::Result::Mixin
+      # include Dry::Monads::Result::Mixin
       step :search_name
       step :reify_rest
 
@@ -29,10 +29,10 @@ module Ewa
       end
 
       def reify_rest(search_json)
-        #binding.irb
+        # binding.irb
         Representer::SearchedRestaurants.new(OpenStruct.new)
-        .from_json(search_json)
-        .then { |rest_search|  Success(rest_search['searched_rests']) }
+                                        .from_json(search_json)
+                                        .then { |rest_search| Success(rest_search['searched_rests']) }
       rescue StandardError
         Failure('無此資料 resource not found -- please try again')
       end

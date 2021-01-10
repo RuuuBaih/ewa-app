@@ -4,7 +4,7 @@ require 'dry/transaction'
 
 module Ewa
   module RestaurantActions
-    # filter restaurants based on money 
+    # filter restaurants based on money
     class Rest
       include Dry::Transaction
       def RestAll
